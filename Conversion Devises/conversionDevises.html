@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conversion Devises</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="fieldset">
+        <fieldset>
+            <legend class="display-4 font-weight-light text-white">Convertisseur de devises</legend>
+            <hr class="my-4">
+            <div id="input1"><input type="text" id="numberUser" maxlength="10" size="100">
+                <select name="devise d'origine" id="devise1">
+                    <option>USD($) Dollar des Etats-Unis</option>
+                    <option>GPB(£) Livre Britannique</option>
+                    <option>EUR(€) Euro</option>
+                </select> <br>
+            </div>
+            <div id="input2"><input type="text" id="numberConverted" size="100" readonly>
+                <select name="devise convertie" id="devise2">
+                    <option>USD($) Dollar des Etats-Unis</option>
+                    <option>GBP(£) Livre Britannique</option>
+                    <option>EUR(€) Euro</option>
+                </select> <br>
+            </div>
+            <div id="bouton"><button id="convert" class="col-2 btn btn btn-light"
+                    onclick=onClickConvert()>Convertir</button>
+                <div>
+        </fieldset>
+    </div>
+    <script>
+        "use strict"
+        function onClickConvert() {
+            // fonction principale (main), executée lorsque le bouton "Convertir" est cliqué
+            // récupération des devises selectionnées par l'utilisateur avec .selectIndex
+            let selectedValue1 = document.getElementById("devise1").selectedIndex;
+            let selectedValue2 = document.getElementById("devise2").selectedIndex;
+            // récupération de du nombre saisi par l'utilisateur
+            let origin = document.getElementById("numberUser").value;
+            let converted = 0;
+            // vérification avant toute action de la saisie est correcte 
+            if (isNaN(origin)) {
+                document.getElementById("numberUser").value = "Impossible de faire la conversion : veuillez saisir un nombre";
+            } else if (origin == "") {
+                document.getElementById("numberUser").value = "Impossible de faire la conversion : champ vide";
+                // liste des cas possibles et taux en fonction
+                // dollar livre 
+            } else if ((selectedValue1 == 0) && (selectedValue2 == 1)) {
+                converted = origin * 0.76494;
+                // arrondir jusqu'aux centimes, deux chiffres après la virgule
+                converted = Math.round(converted * 100) / 100;
+                // dollar euro 
+            } else if ((selectedValue1 == 0) && (selectedValue2 == 2)) {
+                converted = origin * 0.90;
+                converted = Math.round(converted * 100) / 100;
+                // livre dollar 
+            } else if ((selectedValue1 == 1) && (selectedValue2 == 0)) {
+                converted = origin * 1.31;
+                converted = Math.round(converted * 100) / 100;
+                // livre euro
+            } else if ((selectedValue1 == 1) && (selectedValue2 == 2)) {
+                converted = origin * 1.17;
+                converted = Math.round(converted * 100) / 100;
+                // euro dollar 
+            } else if ((selectedValue1 == 2) && (selectedValue2 == 0)) {
+                converted = origin * 1.12;
+                converted = Math.round(converted * 100) / 100;
+                // euro livre 
+            } else if ((selectedValue1 == 2) && (selectedValue2 == 1)) {
+                converted = origin * 0.85;
+                converted = Math.round(converted * 100) / 100;
+                // sinon, il s'agit de la même monnaie
+            } else {
+                converted = "Veuillez choisir une devise différente de celle d'origine";
+            }
+            // insertion du résultat dans le champ readonly
+            document.getElementById("numberConverted").value = converted;
+        }
+    </script>
+
+</body>
+
+</html>
